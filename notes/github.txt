@@ -15,7 +15,7 @@ git status
 Show current state of working directory.
 git add <file>
 Add file(s) to staging area.
-git add file.txt
+git add file.txt or file_name
 git add .
 git commit -m "message"
 Commit staged changes with a message.
