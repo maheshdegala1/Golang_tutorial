@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-# golang full tutorial - http/net ,gin 
-golang
-=======
-# MyApp
+﻿# golang full tutorial - http/net, gin
 
-A Go application.
+This repository is a Go application tutorial covering http/net and Gin framework patterns.
 
 ## Project Structure
 
@@ -41,4 +37,7 @@ go build -o myapp ./cmd/myapp
 ```bash
 go test ./...
 ```
->>>>>>> 5a5547c (Initial commit: Create Go project structure)
+
+---
+
+If you want to keep the original shorter README title, it was: "golang full tutorial - http/net ,gin". The file now includes the project structure and basic commands.
