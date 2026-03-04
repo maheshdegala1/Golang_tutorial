@@ -1,0 +1,240 @@
+http.handler
+http.Error
+w.write
+http.ListenAndServe
+http.MethodGet
+http.MethodPost
+r.Method
+r.URL.Query().Get("name")
+encoding / decoding
+w.Header().Set("Content-Type", "application/json")
+w.WriteHeader(http.StatusOK)=>by default 200
+_ = json.NewEncoder(w).Encode(res)
+encoding / decoding
+w.Header().Set("Content-Type", "application/json")
+w.WriteHeader(http.StatusOK)=>by default 200
+_ = json.NewEncoder(w).Encode(res)
+
+
+
+🔹 1️⃣ HTTP Server (net/http package)
+
+Import:
+
+import (
+	"net/http"
+)
+✅ http.HandleFunc
+
+Registers a route.
+
+http.HandleFunc("/hello", handlerFunction)
+✅ http.ListenAndServe
+
+Starts the server.
+
+http.ListenAndServe(":8080", nil)
+
+With error handling:
+
+err := http.ListenAndServe(":8080", nil)
+if err != nil {
+	log.Fatal(err)
+}
+✅ Handler Function Signature
+func handler(w http.ResponseWriter, r *http.Request) {
+}
+
+w → sends response
+
+r → contains request data
+
+🔹 2️⃣ HTTP Methods
+✅ r.Method
+
+Used to check request type:
+
+if r.Method == http.MethodGet {
+}
+
+if r.Method == http.MethodPost {
+}
+
+if r.Method == http.MethodPut {
+}
+
+if r.Method == http.MethodDelete {
+}
+Common HTTP Method Constants
+
+http.MethodGet
+
+http.MethodPost
+
+http.MethodPut
+
+http.MethodDelete
+
+http.MethodPatch
+
+http.MethodOptions
+
+http.MethodHead
+
+🔹 3️⃣ Query Parameters
+✅ Get Query Param
+
+URL:
+
+http://localhost:8080?name=mahesh
+
+Code:
+
+name := r.URL.Query().Get("name")
+
+Other useful ones:
+
+r.URL.Query()          // returns all query params
+r.URL.Query()["name"]  // returns []string
+🔹 4️⃣ Sending Response
+✅ Write Text Response
+w.Write([]byte("Hello World"))
+✅ http.Error
+
+Sends error response:
+
+http.Error(w, "Bad Request", http.StatusBadRequest)
+
+Common status codes:
+
+http.StatusOK (200)
+
+http.StatusCreated (201)
+
+http.StatusBadRequest (400)
+
+http.StatusUnauthorized (401)
+
+http.StatusNotFound (404)
+
+http.StatusInternalServerError (500)
+
+✅ w.WriteHeader()
+
+Sets status code:
+
+w.WriteHeader(http.StatusOK)
+
+⚠️ If you don’t call it, default is:
+
+200 OK
+✅ Set Headers
+w.Header().Set("Content-Type", "application/json")
+w.Header().Set("Authorization", "Bearer token")
+🔹 5️⃣ JSON Encoding / Decoding (encoding/json)
+
+Import:
+
+import "encoding/json"
+✅ Encode (Send JSON Response)
+_ = json.NewEncoder(w).Encode(res)
+
+Better way:
+
+err := json.NewEncoder(w).Encode(res)
+if err != nil {
+	http.Error(w, err.Error(), http.StatusInternalServerError)
+}
+
+What it does:
+
+Converts struct → JSON
+
+Writes to response
+
+✅ Decode JSON (Read Request Body)
+var user User
+
+err := json.NewDecoder(r.Body).Decode(&user)
+if err != nil {
+	http.Error(w, err.Error(), http.StatusBadRequest)
+	return
+}
+
+What it does:
+
+Converts JSON → struct
+
+🔹 6️⃣ Full Example (GET + POST + JSON)
+package main
+
+import (
+	"encoding/json"
+	"net/http"
+)
+
+type Response struct {
+	Message string `json:"message"`
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+
+	switch r.Method {
+
+	case http.MethodGet:
+		name := r.URL.Query().Get("name")
+
+		res := Response{
+			Message: "Hello " + name,
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(res)
+
+	case http.MethodPost:
+		var req Response
+
+		err := json.NewDecoder(r.Body).Decode(&req)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(req)
+
+	default:
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	}
+}
+
+func main() {
+	http.HandleFunc("/", handler)
+	http.ListenAndServe(":8080", nil)
+}
+🔥 Summary of Important Methods
+Server
+
+http.HandleFunc()
+
+http.ListenAndServe()
+
+Request
+
+r.Method
+
+r.URL.Query().Get()
+
+json.NewDecoder(r.Body).Decode()
+
+Response
+
+w.Write()
+
+w.WriteHeader()
+
+w.Header().Set()
+
+http.Error()
+
+json.NewEncoder(w).Encode()
