@@ -1,0 +1,207 @@
+git init
+git config --global user.name "Your Name"
+git config --global user.email "your@email.com"
+git config --list
+
+2. Repository Initialization
+git init
+Initialize a new Git repository.
+git clone <repo-url>
+Copy an existing remote repository to your local machine.
+git clone https://github.com/user/repo.git
+
+3. Basic Snapshot Commands
+git status
+Show current state of working directory.
+git add <file>
+Add file(s) to staging area.
+git add file.txt
+git add .
+git commit -m "message"
+Commit staged changes with a message.
+git commit -am "message"
+Add & commit tracked files in one step.
+git rm <file>
+Remove file from working directory and staging.
+git mv <old> <new>
+Rename or move a file.
+4. Branching & Merging
+git branch
+
+List branches.
+
+git branch <branch-name>
+
+Create new branch.
+
+git checkout <branch>
+
+Switch to branch.
+
+git checkout -b <branch>
+
+Create and switch to new branch.
+
+git switch <branch>
+
+Switch branches (modern alternative).
+
+git merge <branch>
+
+Merge branch into current branch.
+
+git branch -d <branch>
+
+Delete branch.
+
+🔹 5. Remote Repositories
+git remote -v
+
+Show remote repositories.
+
+git remote add origin <url>
+
+Add remote repository.
+
+git push origin <branch>
+
+Push branch to remote.
+
+git push -u origin <branch>
+
+Push and set upstream branch.
+
+git pull
+
+Fetch and merge from remote.
+
+git fetch
+
+Download objects and refs from remote.
+
+🔹 6. Undoing Changes
+git restore <file>
+
+Discard changes in working directory.
+
+git restore --staged <file>
+
+Unstage file.
+
+git reset <file>
+
+Unstage file (old method).
+
+git reset --hard
+
+Reset working directory and staging to last commit.
+
+git revert <commit>
+
+Create new commit that undoes changes.
+
+🔹 7. Viewing History
+git log
+
+Show commit history.
+
+git log --oneline
+
+Compact commit history.
+
+git diff
+
+Show changes between commits or working directory.
+
+git show <commit>
+
+Show details of a commit.
+
+git blame <file>
+
+Show who changed each line.
+
+🔹 8. Stashing
+git stash
+
+Temporarily save uncommitted changes.
+
+git stash list
+
+List stashes.
+
+git stash apply
+
+Reapply last stash.
+
+git stash drop
+
+Delete stash.
+
+🔹 9. Tags
+git tag
+
+List tags.
+
+git tag <tag-name>
+
+Create tag.
+
+git tag -a <tag-name> -m "message"
+
+Create annotated tag.
+
+git push origin <tag>
+
+Push tag to remote.
+
+🔹 10. Advanced / Useful Commands
+git rebase <branch>
+
+Reapply commits on top of another base branch.
+
+git rebase -i
+
+Interactive rebase.
+
+git cherry-pick <commit>
+
+Apply specific commit to current branch.
+
+git clean -f
+
+Remove untracked files.
+
+git bisect
+
+Find commit that introduced a bug.
+
+git reflog
+
+Show reference logs (great for recovery).
+
+🔹 11. Submodules
+git submodule add <repo-url>
+
+Add submodule.
+
+git submodule update --init
+
+Initialize submodules.
+
+🔹 12. Git Aliases
+git config --global alias.co checkout
+
+Create shortcut for commands.
+
+🔹 13. Git Workflow Example
+git init
+git add .
+git commit -m "Initial commit"
+git branch feature
+git checkout feature
+git add .
+git commit -m "Feature added"
+git checkout main
+git merge feature
+git push origin main
