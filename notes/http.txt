@@ -16,7 +16,6 @@ w.WriteHeader(http.StatusOK)=>by default 200
 _ = json.NewEncoder(w).Encode(res)
 
 
-
 🔹 1️⃣ HTTP Server (net/http package)
 
 Import:
