@@ -1,0 +1,82 @@
+Explanation of the Go Parameters
+w http.ResponseWriter, r *http.Request
+1. Purpose
+
+These parameters are used in a Go HTTP handler function.
+They allow the server to:
+
+Send a response to the client
+
+Receive and read the request from the client
+
+2. Typical Usage
+func handler(w http.ResponseWriter, r *http.Request) {
+    // handler code
+}
+
+
+This function is automatically called whenever a client makes an HTTP request to the server.
+
+3. Explanation of Each Parameter
+a) w http.ResponseWriter
+
+w is an interface provided by Go’s net/http package
+
+It is used to write data back to the client
+
+Common uses:
+
+Send text or HTML
+
+Send JSON data
+
+Set HTTP status codes
+
+Set response headers
+
+Example:
+
+w.Write([]byte("Hello World"))
+
+b) r *http.Request
+
+r is a pointer to an http.Request structure
+
+It contains all information about the incoming request
+
+Includes:
+
+URL and query parameters
+
+HTTP method (GET, POST, etc.)
+
+Headers
+
+Body data
+
+Example:
+
+r.Method
+r.URL
+r.Header
+
+4. Why *http.Request Uses a Pointer
+
+Passing a pointer avoids copying large amounts of data
+
+Allows efficient access to request information
+
+Standard practice in Go
+
+5. Simple Example
+func handler(w http.ResponseWriter, r *http.Request) {
+    w.Write([]byte("Welcome to Go"))
+}
+
+6. Summary
+
+w → Used to send the response
+
+r → Used to read the request
+
+Both are required for handling HTTP requests in Go

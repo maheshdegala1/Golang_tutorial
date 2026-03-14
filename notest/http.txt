@@ -1,0 +1,13 @@
+http.handler
+http.Error
+w.write
+http.ListenAndServe
+http.MethodGet
+http.MethodPost
+r.Method
+r.URL.Query().Get("name")
+encoding / decoding
+w.Header().Set("Content-Type", "application/json")
+w.WriteHeader(http.StatusOK)=>by default 200
+_ = json.NewEncoder(w).Encode(res)
+

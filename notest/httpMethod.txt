@@ -1,0 +1,121 @@
+HTTP Methods with Real-Time Examples
+Introduction
+
+HTTP methods define the type of action a client wants to perform on a server.
+They are commonly used in web applications and REST APIs.
+
+1. GET Method
+
+Purpose:
+Retrieve data from the server.
+
+Real-Time Example:
+Opening a webpage or viewing products on an online shopping site.
+
+Example URL:
+
+GET /products
+
+
+Real-World Scenario:
+Viewing your profile on Facebook or Instagram.
+
+2. POST Method
+
+Purpose:
+Send data to the server to create a new record.
+
+Real-Time Example:
+Submitting a login form or registering a new account.
+
+Example:
+
+POST /register
+
+
+Real-World Scenario:
+Creating a new Gmail account.
+
+3. PUT Method
+
+Purpose:
+Update an entire existing record.
+
+Real-Time Example:
+Updating your full user profile (name, email, phone).
+
+Example:
+
+PUT /users/12
+
+
+Real-World Scenario:
+Editing all personal details in a bank profile.
+
+4. PATCH Method
+
+Purpose:
+Update partial data only.
+
+Real-Time Example:
+Changing your password or profile picture.
+
+Example:
+
+PATCH /users/12
+
+
+Real-World Scenario:
+Changing your WhatsApp profile photo.
+
+5. DELETE Method
+
+Purpose:
+Delete data from the server.
+
+Real-Time Example:
+Deleting a post or account.
+
+Example:
+
+DELETE /posts/45
+
+
+Real-World Scenario:
+Deleting an email from your inbox.
+
+6. HEAD Method
+
+Purpose:
+Retrieve response headers only (no body).
+
+Real-Time Example:
+Checking if a file exists before downloading.
+
+Example:
+
+HEAD /file.pdf
+
+7. OPTIONS Method
+
+Purpose:
+Find out which HTTP methods are allowed.
+
+Real-Time Example:
+Browser checking permissions before making API calls.
+
+Example:
+
+OPTIONS /api/data
+
+Real-Time Website Actions and Methods
+User Action	HTTP Method
+View data	GET
+Submit form	POST
+Update full data	PUT
+Update partial data	PATCH
+Delete data	DELETE
+Conclusion
+
+HTTP methods define how a client communicates with a server.
+They are essential for building modern web applications and RESTful APIs.

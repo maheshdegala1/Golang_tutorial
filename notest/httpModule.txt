@@ -1,0 +1,275 @@
+OS starts program [go run main.go]
+↓
+Go runtime initializes
+↓
+main()
+↓
+http.HandleFunc("/hello", helloHandler)
+↓
+http.ListenAndServe(":5000", nil)
+↓
+TCP listen on port 5000
+↓
+Client connects
+↓
+New goroutine
+↓
+Parse HTTP request
+↓
+ServeMux matches /hello
+↓
+helloHandler runs
+↓
+Response written
+↓
+Client receives "Hello, World!"
+↓
+Server waits for next request
+
+Phase 0: Program launch (before main)
+1. OS starts the program
+
+You run:
+
+go run main.go
+
+
+or execute the compiled binary.
+
+The operating system loads the program into memory.
+
+2. Go runtime initializes
+
+Before main() runs, the Go runtime:
+
+Sets up:
+
+Memory management (heap, stack)
+
+Garbage collector
+
+Scheduler (goroutines)
+
+Initializes all imported packages:
+
+fmt
+
+net/http
+
+⚠️ Important:
+net/http initializes a global default router:
+
+http.DefaultServeMux
+
+
+This is just an empty routing table at this point.
+
+🟢 Phase 1: main() starts executing
+func main() {
+
+
+At this moment:
+
+No server exists
+
+No ports are open
+
+No requests can be received
+
+🟢 Phase 2: Route registration (configuration only)
+http.HandleFunc("/hello", helloHandler)
+
+What this does internally
+
+HandleFunc wraps your function:
+
+func(w http.ResponseWriter, r *http.Request)
+
+
+into an http.Handler.
+
+It registers the route into:
+
+http.DefaultServeMux
+
+
+Internally, it stores something like:
+
+"/hello" → helloHandler
+
+What does NOT happen here
+
+❌ No TCP connection
+❌ No listening
+❌ No goroutines started
+
+This is pure configuration.
+
+Think of it as:
+
+“If a request ever comes for /hello, use helloHandler.”
+
+🟢 Phase 3: Starting the HTTP server
+err := http.ListenAndServe(":5000", nil)
+
+
+This is where everything becomes real.
+
+Step 3.1: ListenAndServe is called
+
+Internally, Go does roughly this:
+
+server := &http.Server{
+    Addr:    ":5000",
+    Handler: http.DefaultServeMux, // because you passed nil
+}
+server.ListenAndServe()
+
+
+So:
+
+Address: :5000
+
+Handler: http.DefaultServeMux
+
+Step 3.2: TCP socket is created
+
+The OS:
+
+Allocates port 5000
+
+Binds it to your process
+
+Your program is now listening
+
+If port 5000 is already in use → error → panic(err)
+
+Step 3.3: Server enters accept loop (BLOCKS FOREVER)
+
+This line:
+
+http.ListenAndServe(...)
+
+
+Blocks the main goroutine
+
+Starts an internal loop:
+
+wait → accept connection → handle → repeat
+
+
+Your program will not exit unless:
+
+You kill it
+
+A fatal error occurs
+
+🟢 Phase 4: A client sends a request
+
+Example:
+
+curl http://localhost:5000/hello
+
+Step 4.1: TCP connection accepted
+
+OS accepts the connection
+
+Go server:
+
+Spawns a new goroutine for this connection
+
+✅ Each connection is handled concurrently
+
+Step 4.2: HTTP request is parsed
+
+Go reads from the socket:
+
+GET /hello HTTP/1.1
+Host: localhost:5000
+
+
+It creates:
+
+*http.Request
+
+🟢 Phase 5: Routing (ServeMux magic)
+Step 5.1: Request hits the ServeMux
+
+Because you passed nil:
+
+Handler: http.DefaultServeMux
+
+
+ServeMux:
+
+Looks at r.URL.Path
+
+Path = /hello
+
+Step 5.2: Route match
+
+ServeMux finds:
+
+"/hello" → helloHandler
+
+
+So it calls:
+
+helloHandler(w, r)
+
+🟢 Phase 6: helloHandler executes
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+
+Step 6.1: Method check
+if r.Method != http.MethodGet {
+
+
+If request is not GET:
+
+Sends 405 Method Not Allowed
+
+Returns early
+
+Step 6.2: Writing the response
+_, _ = w.Write([]byte("Hello, World!"))
+
+
+What happens internally:
+
+Go:
+
+Writes HTTP headers (if not already written)
+
+HTTP/1.1 200 OK
+Content-Type: text/plain; charset=utf-8
+
+
+Writes body:
+
+Hello, World!
+
+
+⚠️ Headers are automatically sent on first write
+
+🟢 Phase 7: Response is sent
+
+Data is written to the TCP socket
+
+Client receives the response
+
+Connection:
+
+Closed (or kept alive, depending on headers)
+
+🟢 Phase 8: Server keeps running
+
+After the handler finishes:
+
+Goroutine exits
+
+Server goes back to:
+
+accept next connection
+
+
+Your app is still alive, listening on port 5000.

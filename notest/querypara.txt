@@ -1,0 +1,78 @@
+Explanation of the Go Statement
+name := r.URL.Query().Get("name")
+1. Purpose of the Statement
+
+This statement retrieves the value of a query parameter named name from an HTTP request URL and stores it in a variable called name.
+
+2. Context
+
+This line is commonly used inside an HTTP handler function in the Go programming language, where r represents the incoming HTTP request.
+
+Example URL:
+
+http://localhost:5000/?name=John
+
+3. Detailed Breakdown
+a) r
+
+r is a pointer to an http.Request
+
+It contains all information about the incoming HTTP request
+
+b) r.URL
+
+Represents the URL used in the request
+
+Includes the path and query parameters
+
+c) r.URL.Query()
+
+Extracts the query parameters from the URL
+
+Returns them as key–value pairs
+
+Example:
+
+?name=John&age=25
+
+d) .Get("name")
+
+Retrieves the value associated with the key "name"
+
+If the parameter does not exist, it returns an empty string ("")
+
+It does not cause an error if the key is missing
+
+e) name :=
+
+Declares a new variable called name
+
+Stores the retrieved value as a string
+
+4. Example
+URL:
+http://localhost:5000/?name=Alice
+
+Code:
+name := r.URL.Query().Get("name")
+
+Result:
+name = "Alice"
+
+5. If the Parameter Is Missing
+URL:
+http://localhost:5000/
+
+Result:
+name = ""
+
+
+(No error occurs.)
+
+6. Summary
+
+The statement reads data from the URL query string
+
+It safely retrieves the value of name
+
+If name is not provided, an empty string is returned

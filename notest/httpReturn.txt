@@ -1,0 +1,86 @@
+Explanation of the Go Statement
+_, _ = w.Write([]byte("welcome to go"))
+1. Purpose of the Statement
+
+This statement sends the text “welcome to go” as an HTTP response to the client (such as a web browser).
+
+2. Context
+
+This line is typically used inside an HTTP handler function in Go, where w is used to write data back to the client.
+
+Example:
+
+func handler(w http.ResponseWriter, r *http.Request) {
+    _, _ = w.Write([]byte("welcome to go"))
+}
+
+3. Detailed Breakdown
+a) w
+
+w is an http.ResponseWriter
+
+It is used to send data (response) to the client
+
+b) w.Write(...)
+
+Writes data to the HTTP response body
+
+The method signature is:
+
+Write([]byte) (int, error)
+
+
+It returns:
+
+Number of bytes written
+
+An error (if any)
+
+c) []byte("welcome to go")
+
+Converts the string "welcome to go" into a slice of bytes
+
+Required because Write only accepts byte data
+
+d) _, _ =
+
+The underscore (_) is the blank identifier in Go
+
+It is used to ignore returned values
+
+Here:
+
+First _ ignores the number of bytes written
+
+Second _ ignores the error value
+
+4. Output
+
+When a client accesses the server, the response will be:
+
+welcome to go
+
+5. Why Use _ , _?
+
+Prevents unused variable errors
+
+Useful when you do not need to handle the returned values
+
+Common in simple examples or learning code
+
+6. Better Practice (Optional)
+
+In real applications, it is recommended to handle errors:
+
+_, err := w.Write([]byte("welcome to go"))
+if err != nil {
+    log.Println(err)
+}
+
+7. Summary
+
+Sends text to the HTTP response
+
+Converts string to bytes
+
+Ignores return values using blank identifiers

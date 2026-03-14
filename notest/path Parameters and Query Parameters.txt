@@ -1,0 +1,116 @@
+Normal Parameters and Query Parameters
+(Real-Time Example with Go Code)
+Introduction
+
+In real-world web applications, data is passed to the server using:
+
+Normal Parameters (Path Parameters)
+
+Query Parameters
+
+Below is a real-time scenario with working Go examples.
+
+Real-Time Scenario
+
+👉 Online Shopping Application
+
+View a specific product → Normal parameter
+
+Filter products by category and price → Query parameters
+
+1. Normal Parameters (Path Parameters)
+Definition
+
+Normal parameters are part of the URL path and identify a specific resource.
+
+Real-Time Example
+
+Viewing a product by ID.
+
+URL:
+
+http://localhost:5000/product/101
+
+
+Here:
+
+101 = Product ID (Normal Parameter)
+
+Go Code Example
+http.HandleFunc("/product/", func(w http.ResponseWriter, r *http.Request) {
+    productID := r.URL.Path[len("/product/"):]
+    w.Write([]byte("Product ID: " + productID))
+})
+
+Output
+Product ID: 101
+
+Real-World Usage
+
+Amazon product page
+
+Flipkart product details
+
+Viewing a user profile by ID
+
+2. Query Parameters
+Definition
+
+Query parameters are sent after ? in the URL and are used for filtering or searching.
+
+Real-Time Example
+
+Searching products with filters.
+
+URL:
+
+http://localhost:5000/search?category=mobile&price=20000
+
+
+Here:
+
+category and price are query parameters
+
+Go Code Example
+http.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
+    category := r.URL.Query().Get("category")
+    price := r.URL.Query().Get("price")
+
+    w.Write([]byte("Category: " + category + ", Price: " + price))
+})
+
+Output
+Category: mobile, Price: 20000
+
+Real-World Usage
+
+Product filtering
+
+Search functionality
+
+Pagination (?page=2&limit=10)
+
+Difference Between Normal and Query Parameters
+Feature	Normal Parameter	Query Parameter
+Position	URL path	After ?
+Purpose	Identify resource	Filter data
+Mandatory	Usually Yes	Usually No
+Example	/product/101	?category=mobile
+Combined Real-Time Example
+
+URL:
+
+/product/101?review=true
+
+
+101 → Normal parameter (Product ID)
+
+review=true → Query parameter
+
+Summary
+
+Normal parameters identify what resource is needed
+
+Query parameters define how data should be filtered
+
+Both are widely used in REST APIs

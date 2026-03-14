@@ -1,0 +1,24 @@
+myapp/
+├── cmd/
+│   └── myapp/
+│       └── main.go          # Entry point of the application
+├── internal/
+│   ├── service/
+│   │   └── service.go       # Internal business logic
+│   └── utils/
+│       └── helpers.go       # Internal utilities
+├── pkg/
+│   └── logger/
+│       └── logger.go        # Public reusable packages
+├── api/
+│   └── api.proto            # API definitions (optional, gRPC)
+├── configs/
+│   └── config.yaml          # Configuration files
+├── scripts/
+│   └── build.sh             # Helper scripts
+├── web/
+│   ├── static/              # Static files (HTML, CSS, JS)
+│   └── templates/           # HTML templates
+├── go.mod                   # Module definition
+├── go.sum                   # Module dependencies checksum
+└── README.md                # Project documentation

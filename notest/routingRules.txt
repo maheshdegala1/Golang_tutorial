@@ -1,0 +1,92 @@
+Go http.ServeMux Routing Rules
+1. Longest Path Match Wins
+
+Go checks all registered routes.
+
+The route with the longest matching path is selected.
+
+Example:
+
+/hello beats /
+
+/product/ beats /
+
+2. / Is a Default (Fallback) Route
+
+/ matches all paths.
+
+It is used only when no more specific route matches.
+
+Example:
+
+/unknown → handled by /
+
+/product/22 → handled by /product/ (if registered)
+
+3. No Trailing Slash = Exact Match
+http.HandleFunc("/product", handler)
+
+
+Matches:
+
+/product
+
+Does NOT match:
+
+/product/
+
+/product/22
+
+4. Trailing Slash = Prefix (Subtree) Match
+http.HandleFunc("/product/", handler)
+
+
+Matches:
+
+/product/
+
+/product/22
+
+/product/anything
+
+5. ServeMux Has No Path Parameters
+
+No <id>
+
+No :id
+
+No regular expressions
+
+Everything after the matched prefix must be handled manually.
+
+6. Always Use Trailing Slash for Path Parameters
+
+Correct:
+
+"/product/"
+
+
+Incorrect (bug-prone):
+
+"/product"
+
+7. Rule of Thumb
+
+If a route has child paths, end it with /.
+
+8. Why the Bug Happened
+
+Request: /product/22
+
+Registered route: /product
+
+/product did not match /product/22
+
+/ matched everything
+
+So rootHandler was executed
+
+9. One-Line Memory Trick
+
+Exact route → no slash
+Route with IDs → trailing slash
